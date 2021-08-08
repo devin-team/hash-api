@@ -4,37 +4,37 @@ import { GetUsersArgs } from "./dto/args/get-users.args";
 import { CreateUserInput } from "./dto/input/create-user.input";
 import { DeleteUserInput } from "./dto/input/delete-user.input";
 import { UpdateUserInput } from "./dto/input/update-user.input";
-import { UserEntity } from "./entities/user.entity";
+import { UserDto } from "./dto/user.dto";
 import { UsersService } from "./users.service";
 
-@Resolver(() => UserEntity)
+@Resolver(() => UserDto)
 export class UsersResolver {
     constructor(
         private readonly usersService: UsersService
     ) {}
 
-    @Query(() => UserEntity, { name: 'user', nullable: true })
-    getUser(@Args() getUserArgs: GetUserArgs): UserEntity {
+    @Query(() => UserDto, { name: 'user', nullable: true })
+    getUser(@Args() getUserArgs: GetUserArgs): UserDto {
         return this.usersService.getUser(getUserArgs)
     }
 
-    @Query(() => [UserEntity], { name: 'users', nullable: 'items' })
-    getUsers(@Args() getUsersArgs: GetUsersArgs): UserEntity[] {
+    @Query(() => [UserDto], { name: 'users', nullable: 'items' })
+    getUsers(@Args() getUsersArgs: GetUsersArgs): UserDto[] {
         return this.usersService.getUsers(getUsersArgs)
     }
 
-    @Mutation(() => UserEntity)
-    createUser(@Args('createUserData') createUserData: CreateUserInput): UserEntity {
+    @Mutation(() => UserDto)
+    createUser(@Args('createUserData') createUserData: CreateUserInput): UserDto {
         return this.usersService.createUser(createUserData)
     }
 
-    @Mutation(() => UserEntity)
-    updateUser(@Args('updateUserData') updateUserData: UpdateUserInput): UserEntity {
+    @Mutation(() => UserDto)
+    updateUser(@Args('updateUserData') updateUserData: UpdateUserInput): UserDto {
         return this.usersService.updateUser(updateUserData)
     }
 
-    @Mutation(() => UserEntity)
-    deleteUser(@Args('deleteUserData') deleteUserData: DeleteUserInput): UserEntity {
+    @Mutation(() => UserDto)
+    deleteUser(@Args('deleteUserData') deleteUserData: DeleteUserInput): UserDto {
         return this.usersService.deleteUser(deleteUserData)
     }
 }
