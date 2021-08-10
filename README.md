@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="http://devin.su/hash/" target="blank"><img src="https://i.imgur.com/59YgkD2.png" width="320" alt="Nest Logo" /></a>
+  <a href="http://devin.su/hash/" target="blank"><img src="https://i.imgur.com/F9o8ygV.png" width="320" alt="Nest Logo" /></a>
 </p>
 
 ## Description
