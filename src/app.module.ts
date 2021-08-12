@@ -3,6 +3,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as ormConfig from '../ormconfig'
 import { UsersModule } from './users/users.module';
+import { ChannelsModule } from './channels/channels.module';
 
 @Module({
   imports: [
@@ -11,6 +12,7 @@ import { UsersModule } from './users/users.module';
       autoSchemaFile: true
     }),
     UsersModule,
+    ChannelsModule,
   ],
   controllers: [],
   providers: [],

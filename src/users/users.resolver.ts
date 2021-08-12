@@ -1,5 +1,4 @@
-import { Resolver, Query, Args, Mutation, ObjectType } from "@nestjs/graphql";
-import { DeleteResult } from "typeorm";
+import { Resolver, Query, Args, Mutation } from "@nestjs/graphql";
 import { CreateUserInput } from "./dto/input/create-user.input";
 import { DeleteUserInput } from "./dto/input/delete-user.input";
 import { UpdateUserInput } from "./dto/input/update-user.input";
