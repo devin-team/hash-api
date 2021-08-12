@@ -2,49 +2,68 @@ import { Injectable } from "@nestjs/common";
 import { v4 as uuid } from 'uuid'
 import { CreateUserInput } from "./dto/input/create-user.input";
 import { UpdateUserInput } from "./dto/input/update-user.input";
-import { GetUserArgs } from "./dto/args/get-user.args";
 import { DeleteUserInput } from "./dto/input/delete-user.input";
-import { GetUsersArgs } from "./dto/args/get-users.args";
-import { UserDto } from "./dto/user.dto";
+import { ActionResultDto, UserDto } from "./dto/user.dto";
+import { UserRepository } from "./entities/user.repository";
+import { UserEntity } from "./entities/user.entity";
+import { DeleteResult } from "typeorm";
+
+
+// TODO: -sessions, validators, exceptions
 
 @Injectable()
 export class UsersService {
-    private users: UserDto[] = []
+    constructor (
+        private userRepository: UserRepository
+    ) {}
+
 
     public createUser(createUserData: CreateUserInput): UserDto {
         const user: UserDto = {
-            userId: uuid(),
+            id: uuid(),
             ...createUserData
         }
 
-        this.users.push(user)
-
-        return user
+        try {
+            this.userRepository.createUser(user)
+            return user
+        } catch (e) {
+            return e
+        }
     }
 
-    public updateUser(updateUserData: UpdateUserInput): UserDto {
-        const user = this.users.find(user => user.userId === updateUserData.userId)
-
-        Object.assign(user, updateUserData)
-
-        return user
+    public updateUser(updateUserData: UpdateUserInput): Promise<UserEntity> {
+        const user = this.userRepository.findOne(updateUserData.id)
+        return this.userRepository.save({
+            ...user,
+            ...updateUserData
+        })
     }
 
-    public getUser(getUserArgs: GetUserArgs): UserDto {
-        return this.users.find(user => user.userId === getUserArgs.userId)
+    public getUser(id: string): Promise<UserEntity> {
+        return this.userRepository.findOne(id)
     }
 
-    public getUsers(getUsersArgs: GetUsersArgs): UserDto[] {
-        return getUsersArgs.userIds.map(userId => this.getUser({ userId }))
+    public async getUsers(ids: string[]): Promise<UserEntity[]> {
+        let users: [UserEntity] // array of UserEntity objects
+        for (const id of ids) { // for all elements of array
+            const user = await this.getUser(id)
+            if (user) { // if user is not null or undefined i.e. user exists
+                console.log(user) // breakpoint
+                users.push(user)    // TODO: Cannot read property 'push' of undefined error
+            }
+        }
+        return users
     }
 
-    public deleteUser(deleteUserData: DeleteUserInput): UserDto {
-        const userIndex = this.users.findIndex(user => user.userId === deleteUserData.userId)
+    public async deleteUser(deleteUserData: DeleteUserInput): Promise<ActionResultDto> {
+        const user = this.userRepository.findOne(deleteUserData.id)
 
-        const user = this.users[userIndex]
-
-        this.users.splice(userIndex)
-
-        return user
+        if (user) {
+            await this.userRepository.delete(deleteUserData.id)
+            let response = new ActionResultDto()
+            response.result = true
+            return response
+        }
     }
 }

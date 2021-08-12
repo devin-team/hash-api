@@ -2,22 +2,22 @@ import { Field, ObjectType } from "@nestjs/graphql";
 
 @ObjectType()
 export class UserDto {
-    @Field()
-    userId: string
+    @Field({ nullable: true })
+    id: string | null
 
-    @Field()
+    @Field({ nullable: true })
     username: string
 
     @Field({ nullable: true })
     avatarLink?: string
 
-    @Field()
+    @Field({ nullable: true })
     phoneNumber: string
 
     @Field({ nullable: true })
     email?: string
 
-    @Field()
+    @Field({ nullable: true })
     password: string
 
     @Field({ nullable: true })
@@ -28,4 +28,11 @@ export class UserDto {
 
     @Field({ nullable: true})
     isAdmin?: boolean
+}
+
+
+@ObjectType()
+export class ActionResultDto {
+    @Field({ nullable: true })
+    result: boolean
 }

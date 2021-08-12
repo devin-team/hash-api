@@ -1,10 +1,10 @@
-import { Resolver, Query, Args, Mutation } from "@nestjs/graphql";
-import { GetUserArgs } from "./dto/args/get-user.args";
-import { GetUsersArgs } from "./dto/args/get-users.args";
+import { Resolver, Query, Args, Mutation, ObjectType } from "@nestjs/graphql";
+import { DeleteResult } from "typeorm";
 import { CreateUserInput } from "./dto/input/create-user.input";
 import { DeleteUserInput } from "./dto/input/delete-user.input";
 import { UpdateUserInput } from "./dto/input/update-user.input";
-import { UserDto } from "./dto/user.dto";
+import { ActionResultDto, UserDto } from "./dto/user.dto";
+import { UserEntity } from "./entities/user.entity";
 import { UsersService } from "./users.service";
 
 @Resolver(() => UserDto)
@@ -14,13 +14,13 @@ export class UsersResolver {
     ) {}
 
     @Query(() => UserDto, { name: 'user', nullable: true })
-    getUser(@Args() getUserArgs: GetUserArgs): UserDto {
-        return this.usersService.getUser(getUserArgs)
+    getUser(@Args('userId', { type: () => String }) id: string): Promise<UserEntity> {
+        return this.usersService.getUser(id)
     }
 
     @Query(() => [UserDto], { name: 'users', nullable: 'items' })
-    getUsers(@Args() getUsersArgs: GetUsersArgs): UserDto[] {
-        return this.usersService.getUsers(getUsersArgs)
+    getUsers(@Args('userIds', { type: () => [String] }) ids: string[]): Promise<UserEntity[]> {
+        return this.usersService.getUsers(ids)
     }
 
     @Mutation(() => UserDto)
@@ -29,12 +29,12 @@ export class UsersResolver {
     }
 
     @Mutation(() => UserDto)
-    updateUser(@Args('updateUserData') updateUserData: UpdateUserInput): UserDto {
+    updateUser(@Args('updateUserData') updateUserData: UpdateUserInput): Promise<UserEntity> {
         return this.usersService.updateUser(updateUserData)
     }
 
-    @Mutation(() => UserDto)
-    deleteUser(@Args('deleteUserData') deleteUserData: DeleteUserInput): UserDto {
+    @Mutation(() => ActionResultDto)
+    deleteUser(@Args('deleteUserData') deleteUserData: DeleteUserInput): Promise<ActionResultDto> {
         return this.usersService.deleteUser(deleteUserData)
     }
 }

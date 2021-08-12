@@ -12,12 +12,12 @@ export class CreateUserInput {
     @Field()
     password: string
 
-    @Field()
+    @Field({ nullable: true })
     @IsOptional()
     @IsEmail()
     email?: string
 
-    @Field()
+    @Field({ nullable: true })
     @IsOptional()
     @IsNumber()
     age?: number

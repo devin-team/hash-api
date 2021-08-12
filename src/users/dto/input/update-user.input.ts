@@ -5,19 +5,19 @@ import { IsOptional, IsNotEmpty, IsEmail, IsString } from "class-validator"
 export class UpdateUserInput {
     @Field()
     @IsNotEmpty()
-    userId: string
+    id: string
 
-    @Field()
+    @Field({ nullable: true})
     @IsOptional()
     @IsEmail()
     email?: string
 
-    @Field()
+    @Field({ nullable: true})
     @IsOptional()
     @IsString()
     bio?: string
 
-    @Field()
+    @Field({ nullable: true})
     @IsOptional()
     @IsNotEmpty()
     age?: number
