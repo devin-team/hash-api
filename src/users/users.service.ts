@@ -6,7 +6,6 @@ import { DeleteUserInput } from "./dto/input/delete-user.input";
 import { ActionResultDto, UserDto } from "./dto/user.dto";
 import { UserRepository } from "./entities/user.repository";
 import { UserEntity } from "./entities/user.entity";
-import { DeleteResult } from "typeorm";
 
 
 // TODO: -sessions, validators, exceptions
@@ -45,12 +44,11 @@ export class UsersService {
     }
 
     public async getUsers(ids: string[]): Promise<UserEntity[]> {
-        let users: [UserEntity] // array of UserEntity objects
+        let users: UserEntity[] = [] // array of UserEntity objects
         for (const id of ids) { // for all elements of array
             const user = await this.getUser(id)
             if (user) { // if user is not null or undefined i.e. user exists
-                console.log(user) // breakpoint
-                users.push(user)    // TODO: Cannot read property 'push' of undefined error
+                users.push(user)
             }
         }
         return users

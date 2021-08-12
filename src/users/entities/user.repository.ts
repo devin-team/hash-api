@@ -1,6 +1,5 @@
 import { InternalServerErrorException, Logger } from "@nestjs/common";
 import { EntityRepository, Repository } from "typeorm";
-import { UpdateUserInput } from "../dto/input/update-user.input";
 import { UserDto } from "../dto/user.dto";
 import { UserEntity } from "./user.entity";
 
