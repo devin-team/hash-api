@@ -11,18 +11,18 @@ export class ChannelEntity extends BaseEntity {
     @Column({ nullable: true })
     avatar?: string
 
-    @Column({ type: 'simple-array', nullable: true, array: true, default: [] })
+    @Column({ type: 'varchar', array: true, default: [] })
     tags?: string[]
 
     @Column()
     owner: string
 
-    @Column({ type: 'simple-array', nullable: true, array: true, default: [] })
+    @Column({ type: 'varchar', array: true, default: [] })
     admins?: string[]
 
     @Column({ nullable: true })
     description?: string
 
-    @Column({ type: 'simple-array', array: true, default: [] })
+    @Column({ type: 'varchar', array: true, default: [] })
     users: string[]
 }
