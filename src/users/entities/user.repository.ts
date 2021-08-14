@@ -1,5 +1,7 @@
 import { InternalServerErrorException, Logger } from "@nestjs/common";
+import { ChannelEntity } from "src/channels/entities/channel.entity";
 import { EntityRepository, Repository } from "typeorm";
+import { SubscribeOnChannelInput } from "../dto/input/subscribe-on-channel.input";
 import { UserDto } from "../dto/user.dto";
 import { UserEntity } from "./user.entity";
 
@@ -30,5 +32,21 @@ export class UserRepository extends Repository<UserEntity> {
             this.logger.log(`Error while creating a user: ${e.message}`)
             throw new InternalServerErrorException(`Error while creating a user: ${e.message}`)
         }
+    }
+
+    async subscibeUserOnChannel(user: UserEntity, channel: ChannelEntity): Promise<any> {
+        try {
+            await this.createQueryBuilder('users')
+            .update(UserEntity)
+            .where('id = :id', { id: user.id })
+            .set({
+                channel: channel
+            })
+            .execute()
+        } catch (e) {
+            throw new InternalServerErrorException(e.message)
+        }
+
+        return await this.findOne(user.id)
     }
 }

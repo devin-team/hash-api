@@ -1,4 +1,5 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { ChannelEntity } from "src/channels/entities/channel.entity";
+import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({ name: 'users' })
 export class UserEntity extends BaseEntity {
@@ -28,4 +29,8 @@ export class UserEntity extends BaseEntity {
 
     @Column({ default: false})
     isAdmin: boolean
+
+    @ManyToOne(() => ChannelEntity, channel => channel.users)
+    @JoinColumn({ name: 'channel_id' })
+    channel: ChannelEntity
 }

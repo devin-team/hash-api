@@ -1,6 +1,7 @@
 import { Resolver, Query, Args, Mutation } from "@nestjs/graphql";
 import { CreateUserInput } from "./dto/input/create-user.input";
 import { DeleteUserInput } from "./dto/input/delete-user.input";
+import { SubscribeOnChannelInput } from "./dto/input/subscribe-on-channel.input";
 import { UpdateUserInput } from "./dto/input/update-user.input";
 import { ActionResultDto, UserDto } from "./dto/user.dto";
 import { UserEntity } from "./entities/user.entity";
@@ -35,5 +36,10 @@ export class UsersResolver {
     @Mutation(() => ActionResultDto)
     deleteUser(@Args('deleteUserData') deleteUserData: DeleteUserInput): Promise<ActionResultDto> {
         return this.usersService.deleteUser(deleteUserData)
+    }
+
+    @Mutation(() => UserDto)
+    subscibeUserOnChannel(@Args('subscribeOnChannelData') subscribeOnChannelData: SubscribeOnChannelInput): Promise<UserEntity> {
+        return this.usersService.subscribeOnChannel(subscribeOnChannelData)
     }
 }

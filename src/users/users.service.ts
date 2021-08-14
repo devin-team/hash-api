@@ -6,6 +6,10 @@ import { DeleteUserInput } from "./dto/input/delete-user.input";
 import { ActionResultDto, UserDto } from "./dto/user.dto";
 import { UserRepository } from "./entities/user.repository";
 import { UserEntity } from "./entities/user.entity";
+import { SubscribeOnChannelInput } from "./dto/input/subscribe-on-channel.input";
+import { ChannelRepository } from "src/channels/entities/channel.repository";
+import { BadRequestException } from "@nestjs/common";
+import { ChannelEntity } from "src/channels/entities/channel.entity";
 
 
 // TODO: -sessions, validators, exceptions
@@ -13,7 +17,8 @@ import { UserEntity } from "./entities/user.entity";
 @Injectable()
 export class UsersService {
     constructor (
-        private userRepository: UserRepository
+        private userRepository: UserRepository,
+        private channelRepository: ChannelRepository
     ) {}
 
 
@@ -63,5 +68,23 @@ export class UsersService {
             response.result = true
             return response
         }
+    }
+
+    public async subscribeOnChannel(subscribeOnChannelData: SubscribeOnChannelInput): Promise<UserEntity> {
+        let user: UserEntity
+        let channel: ChannelEntity
+        
+        try {
+            user = await this.userRepository.findOne(subscribeOnChannelData.userId)
+            channel = await this.channelRepository.findOne(subscribeOnChannelData.channelId)
+        } catch (e) {
+            throw new BadRequestException(`${e.message}`)
+        }
+
+        if (!user || !channel) {
+            throw new BadRequestException(`User/Channel wasn't found`)
+        }
+
+        return await this.userRepository.subscibeUserOnChannel(user, channel)
     }
 }

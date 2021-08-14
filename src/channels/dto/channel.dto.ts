@@ -1,4 +1,5 @@
 import { Field, ObjectType } from "@nestjs/graphql";
+import { UserDto } from "src/users/dto/user.dto";
 
 @ObjectType()
 export class ChannelDto {
@@ -23,6 +24,6 @@ export class ChannelDto {
     @Field({ nullable: true })
     description?: string
     
-    @Field(() => [String], { nullable: true })
-    users?: string[]
+    @Field(() => [UserDto])
+    users: UserDto[]
 }

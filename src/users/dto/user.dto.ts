@@ -1,4 +1,5 @@
 import { Field, ObjectType } from "@nestjs/graphql";
+import { ChannelDto } from "src/channels/dto/channel.dto";
 
 @ObjectType()
 export class UserDto {
@@ -28,6 +29,9 @@ export class UserDto {
 
     @Field({ nullable: true})
     isAdmin?: boolean
+
+    @Field(type => ChannelDto, { nullable: true })
+    channel?: ChannelDto 
 }
 
 
