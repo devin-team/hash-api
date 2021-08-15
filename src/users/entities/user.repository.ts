@@ -1,4 +1,4 @@
-import { InternalServerErrorException, Logger } from "@nestjs/common";
+import { BadRequestException, InternalServerErrorException, Logger } from "@nestjs/common";
 import { ChannelEntity } from "src/channels/entities/channel.entity";
 import { EntityRepository, Repository } from "typeorm";
 import { SubscribeOnChannelInput } from "../dto/input/subscribe-on-channel.input";
@@ -34,19 +34,26 @@ export class UserRepository extends Repository<UserEntity> {
         }
     }
 
-    async subscibeUserOnChannel(user: UserEntity, channel: ChannelEntity): Promise<any> {
-        try {
-            await this.createQueryBuilder('users')
-            .update(UserEntity)
-            .where('id = :id', { id: user.id })
-            .set({
-                channel: channel
-            })
-            .execute()
-        } catch (e) {
-            throw new InternalServerErrorException(e.message)
+    async subscibeUserOnChannel(user: UserEntity, channel: ChannelEntity): Promise<UserEntity> {
+        const row = await this.findOne(user.id, { relations: ['channels'] })
+        row.channels.push(channel)
+        await this.save(row)
+
+        return await this.findOne(user.id, { relations: ['channels'] })
+    }
+
+    async unsubscibeUserFromChannel(user: UserEntity, channel: ChannelEntity): Promise<UserEntity> {
+        const row = await this.findOne(user.id, { relations: ['channels'] })
+        
+        const index = row.channels.indexOf(channel)
+        if (index > -1) {
+            row.channels.splice(index, 1)
+        } else {
+            throw new BadRequestException(`The user isn't subscibed to the channel anyway`)
         }
 
-        return await this.findOne(user.id)
-    }
+        await this.save(row)
+
+        return await this.findOne(user.id, { relations: ['channels'] })
+    } 
 }

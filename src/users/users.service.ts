@@ -87,4 +87,22 @@ export class UsersService {
 
         return await this.userRepository.subscibeUserOnChannel(user, channel)
     }
+
+    public async unsubscibeFromChannel(unsubscibeFromChannelData: SubscribeOnChannelInput): Promise<UserEntity> {
+        let user: UserEntity
+        let channel: ChannelEntity
+        
+        try {
+            user = await this.userRepository.findOne(unsubscibeFromChannelData.userId)
+            channel = await this.channelRepository.findOne(unsubscibeFromChannelData.channelId)
+        } catch (e) {
+            throw new BadRequestException(`${e.message}`)
+        }
+
+        if (!user || !channel) {
+            throw new BadRequestException(`User/Channel wasn't found`)
+        }
+
+        return await this.userRepository.unsubscibeUserFromChannel(user, channel)
+    }
 }

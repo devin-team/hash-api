@@ -42,4 +42,9 @@ export class UsersResolver {
     subscibeUserOnChannel(@Args('subscribeOnChannelData') subscribeOnChannelData: SubscribeOnChannelInput): Promise<UserEntity> {
         return this.usersService.subscribeOnChannel(subscribeOnChannelData)
     }
+
+    @Mutation(() => UserDto)
+    unsubscribeFromChannel(@Args('unsubscribeFromChannelData') unsubscribeFromChannelData: SubscribeOnChannelInput): Promise<UserEntity> {
+        return this.usersService.unsubscibeFromChannel(unsubscribeFromChannelData)
+    }
 }

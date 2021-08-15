@@ -1,5 +1,5 @@
 import { UserEntity } from "src/users/entities/user.entity";
-import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({ name: 'channels' })
 export class ChannelEntity extends BaseEntity {
@@ -24,6 +24,6 @@ export class ChannelEntity extends BaseEntity {
     @Column({ nullable: true })
     description?: string
 
-    @OneToMany(() => UserEntity, users => users.channel)
+    @ManyToMany(() => UserEntity, (users) => users.channels)
     users: UserEntity[]
 }
