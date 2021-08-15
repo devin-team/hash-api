@@ -1,16 +1,20 @@
 import { Field, InputType } from "@nestjs/graphql";
-import { IsEmail, IsNumber, IsOptional } from "class-validator"
+import { IsEmail, IsNotEmpty, IsNumber, IsOptional, IsPhoneNumber } from "class-validator"
 import { ChannelDto } from "src/channels/dto/channel.dto";
 
 @InputType()
 export class CreateUserInput {
     @Field()
+    @IsNotEmpty()
     username: string
 
     @Field()
+    @IsNotEmpty()
+    @IsPhoneNumber()
     phoneNumber: string
 
     @Field()
+    @IsNotEmpty()
     password: string
 
     @Field({ nullable: true })

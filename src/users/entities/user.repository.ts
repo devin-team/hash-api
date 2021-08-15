@@ -36,7 +36,14 @@ export class UserRepository extends Repository<UserEntity> {
 
     async subscibeUserOnChannel(user: UserEntity, channel: ChannelEntity): Promise<UserEntity> {
         const row = await this.findOne(user.id, { relations: ['channels'] })
-        row.channels.push(channel)
+
+        const index = row.channels.indexOf(channel) // get index of element in array
+        if (index > -1) { // if element exists, index will be from 0 to ∞
+            throw new BadRequestException(`The user is subscibed to the channel anyway`) // throw an error if the user is already subscribe
+        } else {
+            row.channels.push(channel)
+        }
+
         await this.save(row)
 
         return await this.findOne(user.id, { relations: ['channels'] })
@@ -45,9 +52,9 @@ export class UserRepository extends Repository<UserEntity> {
     async unsubscibeUserFromChannel(user: UserEntity, channel: ChannelEntity): Promise<UserEntity> {
         const row = await this.findOne(user.id, { relations: ['channels'] })
         
-        const index = row.channels.indexOf(channel)
-        if (index > -1) {
-            row.channels.splice(index, 1)
+        const index = row.channels.indexOf(channel) // get index of element in array
+        if (index > -1) { // if element exists, index will be from 0 to ∞
+            row.channels.splice(index, 1) // delete element by index
         } else {
             throw new BadRequestException(`The user isn't subscibed to the channel anyway`)
         }

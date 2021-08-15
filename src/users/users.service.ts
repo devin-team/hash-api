@@ -12,7 +12,7 @@ import { BadRequestException } from "@nestjs/common";
 import { ChannelEntity } from "src/channels/entities/channel.entity";
 
 
-// TODO: -sessions, validators, exceptions
+// TODO: -sessions
 
 @Injectable()
 export class UsersService {
