@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { UserRepository } from 'src/users/entities/user.repository';
 import { GetChannelArgs } from './dto/args/get-channel.args';
 import { CreateChannelInput } from './dto/inputs/create-channel.input';
@@ -19,10 +19,18 @@ export class ChannelsService {
    public async updateChannel(updateChannelData: UpdateChannelInput): Promise<ChannelEntity> {
        const channel = await this.channelRepository.findOne(updateChannelData.id)
 
-       return await this.channelRepository.save({
-           ...channel,
-           ...updateChannelData
-       })
+       if (!channel) {
+           throw new BadRequestException(`Channel wasn't found`)
+       }
+
+       try {
+            return await this.channelRepository.save({
+                ...channel,
+                ...updateChannelData
+            })
+       } catch (e) {
+           throw new BadRequestException(`Error while saving a channel: ${e.message}`)
+       }
    }
 
    public async getChannel(id: GetChannelArgs): Promise<ChannelEntity> {

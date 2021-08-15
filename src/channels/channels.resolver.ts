@@ -12,16 +12,19 @@ export class ChannelsResolver {
         private readonly channelsService: ChannelsService
     ) {}
 
+    // CREATE CHANNEL
     @Mutation(() => ChannelDto)
     createChannel(@Args('createChannelData') createChannelData: CreateChannelInput): Promise<ChannelEntity> {
         return this.channelsService.createChannel(createChannelData)
     }
 
+    // UPDATE CHANNEL
     @Mutation(() => ChannelDto)
     updateChannel(@Args('updateChannelData') updateChannelData: UpdateChannelInput): Promise<ChannelEntity> {
         return this.channelsService.updateChannel(updateChannelData)
     }
 
+    // GET CHANNEL
     @Query(() => ChannelDto)
     getChannel(@Args() id: GetChannelArgs): Promise<ChannelEntity> {
         return this.channelsService.getChannel(id)

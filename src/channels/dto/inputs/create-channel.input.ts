@@ -1,18 +1,23 @@
 import { Field, InputType } from "@nestjs/graphql";
-import { UserDto } from "src/users/dto/user.dto";
-import { UserEntity } from "src/users/entities/user.entity";
+import { IsNotEmpty, IsString } from "class-validator";
 
 @InputType()
 export class CreateChannelInput {
     @Field()
+    @IsNotEmpty()
+    @IsString()
     name: string
 
     @Field()
+    @IsNotEmpty()
+    @IsString()
     owner: string
 
     @Field({ nullable: true })
+    @IsString()
     description?: string
 
     @Field({ nullable: true })
+    @IsString()
     avatar?: string
 }
