@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import * as ormConfig from '../ormconfig'
 import { UsersModule } from './users/users.module';
 import { ChannelsModule } from './channels/channels.module';
+import { TagsModule } from './tags/tags.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { ChannelsModule } from './channels/channels.module';
     }),
     UsersModule,
     ChannelsModule,
+    TagsModule,
   ],
   controllers: [],
   providers: [],
