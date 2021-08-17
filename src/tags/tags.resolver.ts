@@ -5,13 +5,13 @@ import { TagDto } from "./dto/tags.dto";
 import { TagsEntity } from "./tags.entity";
 import { TagsService } from "./tags.service";
 
-@Resolver(() => TagDto)   
+@Resolver(() => TagDto)
 export class TagResolver {
      constructor(
         private tagsService: TagsService
      ){}
 
-     // create 
+     // create
      @Mutation(() => TagDto)
      createTag(@Args('createtagData') createtagData: CreateTagInput): Promise<TagsEntity>{
          return this.tagsService.createTag(createtagData)
@@ -22,5 +22,4 @@ export class TagResolver {
     getTag(@Args() getTagArgs: GetTagArgs): Promise<TagsEntity> {
         return this.tagsService.getTag(getTagArgs)
     }
-
 }
