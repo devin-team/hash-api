@@ -1,6 +1,5 @@
 import { Field, InputType } from "@nestjs/graphql";
-import { IsEmail, IsNotEmpty, IsNumber, IsOptional, IsPhoneNumber } from "class-validator"
-import { ChannelDto } from "src/channels/dto/channel.dto";
+import { IsNotEmpty, } from "class-validator"
 
 @InputType()
 export class CreateTagInput {

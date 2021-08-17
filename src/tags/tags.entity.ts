@@ -1,5 +1,4 @@
-import { ChannelEntity } from "src/channels/entities/channel.entity";
-import { BaseEntity, Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({ name: 'tags' })
 export class TagsEntity extends BaseEntity {
