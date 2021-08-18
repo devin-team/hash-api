@@ -1,5 +1,6 @@
+import { TagsEntity } from "src/tags/tags.entity";
 import { UserEntity } from "src/users/entities/user.entity";
-import { BaseEntity, Column, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({ name: 'channels' })
 export class ChannelEntity extends BaseEntity {
@@ -12,9 +13,6 @@ export class ChannelEntity extends BaseEntity {
     @Column({ nullable: true })
     avatar?: string
 
-    @Column({ type: 'varchar', array: true, default: [] })
-    tags?: string[]
-
     @Column()
     owner: string
 
@@ -26,4 +24,8 @@ export class ChannelEntity extends BaseEntity {
 
     @ManyToMany(() => UserEntity, (users) => users.channels)
     users: UserEntity[]
+
+    @ManyToMany(() => TagsEntity, (tags) => tags.channels)
+    @JoinTable()
+    tags: TagsEntity[]
 }

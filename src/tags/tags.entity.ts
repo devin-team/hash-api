@@ -1,4 +1,5 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { ChannelEntity } from "src/channels/entities/channel.entity";
+import { BaseEntity, Column, Entity, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({ name: 'tags' })
 export class TagsEntity extends BaseEntity {
@@ -10,4 +11,7 @@ export class TagsEntity extends BaseEntity {
 
     @Column({nullable: false})
     description?: string
+
+    @ManyToMany(() => ChannelEntity, (channels) => channels.tags)
+    channels: ChannelEntity[]
 }

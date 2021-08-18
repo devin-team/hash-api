@@ -10,6 +10,10 @@ export class TagsService {
         private tagRepository: TagRepository
     ) {}
 
+    public async findTag(id: string): Promise<TagsEntity> {
+        return await this.tagRepository.findOne(id)
+    }
+
     getTag(getTagArgs: GetTagArgs): Promise<TagsEntity> {
         return this.tagRepository.findOne(getTagArgs.tagId)
     }
