@@ -1,5 +1,6 @@
 import { ChannelEntity } from "src/channels/entities/channel.entity";
-import { BaseEntity, Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { DefaultPostEntity } from "../../posts/default-posts/entities/default-post.entity";
 
 @Entity({ name: 'users' })
 export class UserEntity extends BaseEntity {
@@ -33,4 +34,7 @@ export class UserEntity extends BaseEntity {
     @ManyToMany(() => ChannelEntity, (channel) => channel.users)
     @JoinTable()
     channels: ChannelEntity[]
+
+    @OneToMany(() => DefaultPostEntity, defaultPosts => defaultPosts.author)
+    defaultPosts: DefaultPostEntity[]
 }

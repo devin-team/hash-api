@@ -18,10 +18,6 @@ export class UpdateChannelInput {
 
     @Field(() => [String], { nullable: true })
     @IsArray()
-    tags?: string[]
-
-    @Field(() => [String], { nullable: true })
-    @IsArray()
     admins?: string[]
 
     @Field({ nullable: true })

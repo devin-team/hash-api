@@ -9,7 +9,8 @@ import { UsersService } from "./users.service";
     imports: [
         TypeOrmModule.forFeature([UserRepository, ChannelRepository]),
     ],
-    providers: [UsersResolver, UsersService]
+    providers: [UsersResolver, UsersService],
+    exports: [UsersService]
 })
 export class UsersModule {
 }
