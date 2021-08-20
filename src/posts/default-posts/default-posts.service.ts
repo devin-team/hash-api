@@ -24,11 +24,10 @@ export class DefaultPostsService {
             throw new BadRequestException(`User with provided ID wasn't found`)
         }
 
-        let tags: TagsEntity[]
+        let tags: TagsEntity[] = []
         for (const tagId of createDefaultPostData.tagsIds) {
             const tag = await this.tagsService.findTag(tagId)
             if (tag) {
-                console.log(tag)
                 tags.push(tag)
             } else {
                 throw new BadRequestException(`Tag with provided ID (${tagId}) wasn't found`)
@@ -38,6 +37,7 @@ export class DefaultPostsService {
         const defaultPost = this.defaultPostRepository.create({ ...createDefaultPostData, author, publishedDate: new Date(), tags })
         await this.defaultPostRepository.save(defaultPost) // TODO: script doesn't push post ID to user's defaultPostIds
 
+        console.log(defaultPost)
         return defaultPost
     }
 }

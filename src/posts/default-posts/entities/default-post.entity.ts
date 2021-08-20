@@ -20,5 +20,6 @@ export class DefaultPostEntity extends BaseEntity {
     publishedDate: Date
 
     @ManyToMany(() => TagsEntity, tags => tags.defaultPosts)
+    @JoinTable()
     tags: TagsEntity[]
 }
