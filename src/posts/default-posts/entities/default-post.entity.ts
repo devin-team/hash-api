@@ -1,4 +1,4 @@
-import { BaseEntity, Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { TagsEntity } from "../../../tags/tags.entity";
 import { UserEntity } from "../../../users/entities/user.entity";
 
@@ -13,7 +13,7 @@ export class DefaultPostEntity extends BaseEntity {
     @Column({ nullable: true })
     description: string
 
-    @OneToMany(() => UserEntity, author => author.defaultPosts)
+    @ManyToOne(() => UserEntity, author => author.defaultPosts)
     author: UserEntity
 
     @Column()
